@@ -1,11 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace TestTask
 {
     public class ReadOnlyStream : IReadOnlyStream
     {
-        private Stream _localStream;
+        private readonly Stream _localStream;
+        private bool _disposed = false;
 
         /// <summary>
         /// Конструктор класса. 
@@ -38,6 +40,7 @@ namespace TestTask
         /// <returns>Считанный символ.</returns>
         public char ReadNextChar()
         {
+            CheckDisposed();
             // TODO : Необходимо считать очередной символ из _localStream
             throw new NotImplementedException();
         }
@@ -55,6 +58,30 @@ namespace TestTask
 
             _localStream.Position = 0;
             IsEof = false;
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+            
+            if (disposing)
+            {
+                _localStream.Dispose();
+            }
+            _disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void CheckDisposed()
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(GetType().Name);
         }
     }
 }
