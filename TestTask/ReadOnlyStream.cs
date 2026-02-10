@@ -22,14 +22,14 @@ namespace TestTask
         {
             CheckPath(fileFullPath);
             _encoding = DefineEncoding(encoding);
-            // TODO : Заменить на создание реального стрима для чтения файла! (заменено)
+            // TODO : Заменить на создание реального стрима для чтения файла! (+)
             _localStream = TryOpenStream(fileFullPath);
         }
 
         /// <summary>
         /// Флаг окончания файла.
         /// </summary>
-        // TODO : Заполнять данный флаг при достижении конца файла/стрима при чтении (реализовано)
+        // TODO : Заполнять данный флаг при достижении конца файла/стрима при чтении (+)
         public bool IsEof => _localStream.Position >= _localStream.Length;
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace TestTask
         public char ReadNextChar()
         {
             CheckDisposed();
-            // TODO : Необходимо считать очередной символ из _localStream (реализовано)
+            // TODO : Необходимо считать очередной символ из _localStream (+)
             byte[] buffer = new byte[sizeof(char)];
             int bytesRead = _localStream.Read(buffer, 0, sizeof(char));
 

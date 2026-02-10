@@ -8,7 +8,7 @@ namespace TestTask
     /// </summary>
     internal interface IReadOnlyStream: IDisposable
     {
-        // TODO : Необходимо доработать данный интерфейс (доработано, как IDisposable)
+        // TODO : Необходимо доработать данный интерфейс (+)
         char ReadNextChar();
 
         void ResetPositionToStart();
