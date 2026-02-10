@@ -16,17 +16,22 @@ namespace TestTask
         /// Второй параметр - путь до второго файла.</param>
         static void Main(string[] args)
         {
-            IReadOnlyStream inputStream1 = GetInputStream(args[0]);
-            IReadOnlyStream inputStream2 = GetInputStream(args[1]);
-
-            IList<LetterStats> singleLetterStats = FillSingleLetterStats(inputStream1);
-            IList<LetterStats> doubleLetterStats = FillDoubleLetterStats(inputStream2);
-
+            IList<LetterStats> singleLetterStats = new List<LetterStats>();
+            using (IReadOnlyStream inputStream1 = GetInputStream(args[0]))
+            {
+                singleLetterStats = FillSingleLetterStats(inputStream1);
+            }
             RemoveCharStatsByType(singleLetterStats, CharType.Vowel);
-            RemoveCharStatsByType(doubleLetterStats, CharType.Consonants);
-
             PrintStatistic(singleLetterStats);
+
+            IList<LetterStats> doubleLetterStats = new List<LetterStats>();
+            using (IReadOnlyStream inputStream2 = GetInputStream(args[1]))
+            {
+                doubleLetterStats = FillDoubleLetterStats(inputStream2);
+            }
+            RemoveCharStatsByType(doubleLetterStats, CharType.Consonants);
             PrintStatistic(doubleLetterStats);
+
 
             // TODO : Необжодимо дождаться нажатия клавиши, прежде чем завершать выполнение программы.
         }
