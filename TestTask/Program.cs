@@ -55,15 +55,28 @@ namespace TestTask
         private static IList<LetterStats> FillSingleLetterStats(IReadOnlyStream stream)
         {
             stream.ResetPositionToStart();
+            Dictionary<char, LetterStats> letterCountsMap = new Dictionary<char, LetterStats>();
             while (!stream.IsEof)
             {
                 char c = stream.ReadNextChar();
                 // TODO : заполнять статистику с использованием метода IncStatistic. Учёт букв - регистрозависимый.
+                if (char.IsLetter(c))
+                {
+                    if (letterCountsMap.TryGetValue(c, out LetterStats existingStat))
+                    {
+                        IncStatistic(existingStat);
+                    }
+                    else
+                    {
+                        letterCountsMap[c] = new LetterStats
+                        {
+                            Letter = c.ToString(),
+                            Count = 1
+                        };
+                    }
+                }
             }
-
-            //return ???;
-
-            throw new NotImplementedException();
+            return new List<LetterStats>(letterCountsMap.Values);
         }
 
         /// <summary>
