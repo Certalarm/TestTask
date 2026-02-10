@@ -89,15 +89,35 @@ namespace TestTask
         private static IList<LetterStats> FillDoubleLetterStats(IReadOnlyStream stream)
         {
             stream.ResetPositionToStart();
+            Dictionary<string, LetterStats> pairCountsMap = new Dictionary<string, LetterStats>();
+            char prevC = '\0';
             while (!stream.IsEof)
             {
                 char c = stream.ReadNextChar();
                 // TODO : заполнять статистику с использованием метода IncStatistic. Учёт букв - НЕ регистрозависимый.
+                if (char.IsLetter(prevC) && char.IsLetter(c))
+                {
+                    if (char.ToUpperInvariant(prevC) == char.ToUpperInvariant(c))
+                    {
+                        string pair = $"{prevC}{c}".ToUpper();
+
+                        if (pairCountsMap.TryGetValue(pair, out LetterStats existingStat))
+                        {
+                            IncStatistic(existingStat);
+                        }
+                        else
+                        {
+                            pairCountsMap[pair] = new LetterStats
+                            {
+                                Letter = pair,
+                                Count = 1
+                            };
+                        }
+                    }
+                }
+                prevC = c;
             }
-
-            //return ???;
-
-            throw new NotImplementedException();
+            return new List<LetterStats>(pairCountsMap.Values);
         }
 
         /// <summary>
