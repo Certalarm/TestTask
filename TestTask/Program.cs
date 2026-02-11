@@ -17,21 +17,21 @@ namespace TestTask
         /// Второй параметр - путь до второго файла.</param>
         static void Main(string[] args)
         {
-            //IList<LetterStats> singleLetterStats = new List<LetterStats>();
-            //using (IReadOnlyStream inputStream1 = GetInputStream(args[0]))
-            //{
-            //    singleLetterStats = FillSingleLetterStats(inputStream1);
-            //}
-            //RemoveCharStatsByType(singleLetterStats, CharType.Vowel);
-            //PrintStatistic(singleLetterStats);
+            IList<LetterStats> singleLetterStats = new List<LetterStats>();
+            using (IReadOnlyStream inputStream1 = GetInputStream(args[0]))
+            {
+                singleLetterStats = HelperFillStat.FillSingleLetterStats(inputStream1);
+            }
+            RemoveCharStatsByType(singleLetterStats, CharType.Vowel);
+            PrintStatistic(singleLetterStats);
 
-            //IList<LetterStats> doubleLetterStats = new List<LetterStats>();
-            //using (IReadOnlyStream inputStream2 = GetInputStream(args[1]))
-            //{
-            //    doubleLetterStats = FillDoubleLetterStats(inputStream2);
-            //}
-            //RemoveCharStatsByType(doubleLetterStats, CharType.Consonants);
-            //PrintStatistic(doubleLetterStats);
+            IList<LetterStats> doubleLetterStats = new List<LetterStats>();
+            using (IReadOnlyStream inputStream2 = GetInputStream(args[1]))
+            {
+                doubleLetterStats = HelperFillStat.FillDoubleLetterStats(inputStream2);
+            }
+            RemoveCharStatsByType(doubleLetterStats, CharType.Consonants);
+            PrintStatistic(doubleLetterStats);
 
 
             // TODO : Необжодимо дождаться нажатия клавиши, прежде чем завершать выполнение программы. (+)
@@ -48,46 +48,6 @@ namespace TestTask
             return new ReadOnlyStream(fileFullPath);
         }
 
-        /// <summary>
-        /// Ф-ция считывающая из входящего потока все буквы, и возвращающая коллекцию статистик вхождения каждой буквы.
-        /// Статистика РЕГИСТРОЗАВИСИМАЯ!
-        /// </summary>
-        /// <param name="stream">Стрим для считывания символов для последующего анализа</param>
-        /// <returns>Коллекция статистик по каждой букве, что была прочитана из стрима.</returns>
-        private static IList<LetterStats> FillSingleLetterStats(IReadOnlyStream stream)
-        {
-            stream.ResetPositionToStart();
-            Dictionary<string, LetterStats> letterCountsMap = new Dictionary<string, LetterStats>();
-            while (!stream.IsEof)
-            {
-                char c = stream.ReadNextChar();
-                // TODO : заполнять статистику с использованием метода IncStatistic. Учёт букв - регистрозависимый. (+)
-                HelperFillStat.FillSingleStatMap(c, letterCountsMap);
-            }
-            return new List<LetterStats>(letterCountsMap.Values);
-        }
-
-        /// <summary>
-        /// Ф-ция считывающая из входящего потока все буквы, и возвращающая коллекцию статистик вхождения парных букв.
-        /// В статистику должны попадать только пары из одинаковых букв, например АА, СС, УУ, ЕЕ и т.д.
-        /// Статистика - НЕ регистрозависимая!
-        /// </summary>
-        /// <param name="stream">Стрим для считывания символов для последующего анализа</param>
-        /// <returns>Коллекция статистик по каждой букве, что была прочитана из стрима.</returns>
-        private static IList<LetterStats> FillDoubleLetterStats(IReadOnlyStream stream)
-        {
-            stream.ResetPositionToStart();
-            Dictionary<string, LetterStats> pairCountsMap = new Dictionary<string, LetterStats>();
-            char prevC = '\0';
-            while (!stream.IsEof)
-            {
-                char c = stream.ReadNextChar();
-                // TODO : заполнять статистику с использованием метода IncStatistic. Учёт букв - НЕ регистрозависимый. (+)
-                HelperFillStat.FillDoubleStatMap(prevC, c, pairCountsMap);    
-                prevC = c;
-            }
-            return new List<LetterStats>(pairCountsMap.Values);
-        }
 
         /// <summary>
         /// Ф-ция перебирает все найденные буквы/парные буквы, содержащие в себе только гласные или согласные буквы.

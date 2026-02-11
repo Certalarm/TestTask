@@ -4,15 +4,55 @@ namespace TestTask.Helpers
 {
     public static class HelperFillStat
     {
-        public static void FillSingleStatMap(char c, Dictionary<string, LetterStats> map)
+        /// <summary>
+        /// Ф-ция считывающая из входящего потока все буквы, и возвращающая коллекцию статистик вхождения каждой буквы.
+        /// Статистика РЕГИСТРОЗАВИСИМАЯ!
+        /// </summary>
+        /// <param name="stream">Стрим для считывания символов для последующего анализа</param>
+        /// <returns>Коллекция статистик по каждой букве, что была прочитана из стрима.</returns>
+        public static IList<LetterStats> FillSingleLetterStats(IReadOnlyStream stream)
+        {
+            stream.ResetPositionToStart();
+            Dictionary<string, LetterStats> letterCountsMap = new Dictionary<string, LetterStats>();
+            while (!stream.IsEof)
+            {
+                char c = stream.ReadNextChar();
+                // TODO : заполнять статистику с использованием метода IncStatistic. Учёт букв - регистрозависимый. (+)
+                FillSingleStatMap(c, letterCountsMap);
+            }
+            return new List<LetterStats>(letterCountsMap.Values);
+        }
+
+        /// <summary>
+        /// Ф-ция считывающая из входящего потока все буквы, и возвращающая коллекцию статистик вхождения парных букв.
+        /// В статистику должны попадать только пары из одинаковых букв, например АА, СС, УУ, ЕЕ и т.д.
+        /// Статистика - НЕ регистрозависимая!
+        /// </summary>
+        /// <param name="stream">Стрим для считывания символов для последующего анализа</param>
+        /// <returns>Коллекция статистик по каждой букве, что была прочитана из стрима.</returns>
+        public static IList<LetterStats> FillDoubleLetterStats(IReadOnlyStream stream)
+        {
+            stream.ResetPositionToStart();
+            Dictionary<string, LetterStats> pairCountsMap = new Dictionary<string, LetterStats>();
+            char prevC = '\0';
+            while (!stream.IsEof)
+            {
+                char c = stream.ReadNextChar();
+                // TODO : заполнять статистику с использованием метода IncStatistic. Учёт букв - НЕ регистрозависимый. (+)
+                HelperFillStat.FillDoubleStatMap(prevC, c, pairCountsMap);
+                prevC = c;
+            }
+            return new List<LetterStats>(pairCountsMap.Values);
+        }
+
+        private static void FillSingleStatMap(char c, Dictionary<string, LetterStats> map)
         {
             if (IsGoodSingleChar(c))
             {
                 FillStatMap(BuildSingleKey(c), map);
             }
         }
-
-        public static void FillDoubleStatMap(char c1, char c2, Dictionary<string, LetterStats> map)
+        private static void FillDoubleStatMap(char c1, char c2, Dictionary<string, LetterStats> map)
         {
             if (IsGoodDoubleChar(c1, c2))
             {
@@ -40,7 +80,8 @@ namespace TestTask.Helpers
         {
             if (map.TryGetValue(key, out LetterStats existingStat))
             {
-                IncStatistic(existingStat);
+                IncStatistic(ref existingStat);
+                map[key] = existingStat;
             }
             else
             {
@@ -59,7 +100,7 @@ namespace TestTask.Helpers
         /// Метод увеличивает счётчик вхождений по переданной структуре.
         /// </summary>
         /// <param name="letterStats"></param>
-        private static void IncStatistic(LetterStats letterStats)
+        private static void IncStatistic(ref LetterStats letterStats)
         {
             letterStats.Count++;
         }
