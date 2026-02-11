@@ -35,5 +35,22 @@ namespace TestTask.UnitTests.InputData
             new object[] { "аабббввввгдежзяяя", 3, 2 },
             new object[] { "аАБбБвВВвГдЕЖзяЯЯ", 5, 2 },
         };
+
+
+        // format: inputData, singleStatLineCount
+        public static List<object[]> DataWithLettersOnlySinglePrintStat = new List<object[]>()
+        {
+            new object[] { "ААБББВВВВГДЕЖЗЯЯЯ", 7 },
+            new object[] { "аабббввввгдежзяяя", 7 },
+            new object[] { "аАБбБвВВвГдЕЖзяЯЯ", 9 },
+        };
+
+        // format: inputData, doubleStatCount
+        public static List<object[]> DataWithLettersOnlyDoublePrintStat = new List<object[]>()
+        {
+            new object[] { "ААБББВВВВГДЕЖЗЯЯЯ", 3 },
+            new object[] { "аабббввввгдежзяяя", 3 },
+            new object[] { "аАБбБвВВвГдЕЖзяЯЯ", 3 },
+        };
     }
 }

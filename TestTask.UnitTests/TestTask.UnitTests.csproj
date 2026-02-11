@@ -136,6 +136,7 @@
     <Compile Include="FillStatsTests.cs" />
     <Compile Include="Fakes\FakeReadOnlyStream.cs" />
     <Compile Include="InputData\InputObjectData.cs" />
+    <Compile Include="PrintStatsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoveStatsTests.cs" />
   </ItemGroup>

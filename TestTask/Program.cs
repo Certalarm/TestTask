@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TestTask.Helpers;
 
 namespace TestTask
@@ -17,16 +16,31 @@ namespace TestTask
         /// Второй параметр - путь до второго файла.</param>
         static void Main(string[] args)
         {
-            Processing(GetSingleLetterStats(args[0]));
-            Processing(GetDoubleLetterStats(args[1]));
+            if (HelperMain.IsBadArgs(args))
+            {
+                HelperMain.PrintHelp();
+            }
+            else
+            {
+                ProcessingSingleStats(args[0]);
+                ProcessingDoubleStats(args[1]);
+            }
             // TODO : Необжодимо дождаться нажатия клавиши, прежде чем завершать выполнение программы. (+)
-            Console.ReadKey();
+            HelperMain.WaitPressKey();
         }
 
-        private static void Processing(IList<LetterStats> letterStats)
+        private static void ProcessingSingleStats(string fileFullPath)
         {
-            HelperRemoveStat.RemoveCharStatsByType(letterStats, CharType.Consonants);
-            PrintStatistic(letterStats);
+            var singleStats = GetSingleLetterStats(fileFullPath);
+            HelperRemoveStat.RemoveCharStatsByType(singleStats, CharType.Vowel);
+            PrintStatistic(singleStats);
+        }
+
+        private static void ProcessingDoubleStats(string fileFullPath)
+        {
+            var doubleStats = GetDoubleLetterStats(fileFullPath);
+            HelperRemoveStat.RemoveCharStatsByType(doubleStats, CharType.Consonants);
+            PrintStatistic(doubleStats);
         }
 
         private static IList<LetterStats> GetSingleLetterStats(string fileFullPath)
@@ -70,7 +84,7 @@ namespace TestTask
         {
             // TODO : Выводить на экран статистику. Выводить предварительно отсортировав по алфавиту! (+)
             var report = HelperPrintStat.BuildReport(letters);
-            Console.WriteLine(report);
+            HelperMain.PrintToConsole(report);
         }
     }
 }
