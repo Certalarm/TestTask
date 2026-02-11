@@ -9,10 +9,18 @@ namespace TestTask
         private const string __errorNoMoreSymbols = "Нет символов для чтения";
         private const string __errorStreamSeekNotSupport = "Файловый поток не поддерживает перемещение";
         private const string __errorFileOpen = "Ошибка открытия файла '{0}'.";
+        private const string __errorNullStream = "Ошибка создания потока.";
 
         private readonly Stream _localStream;
-        private readonly Encoding _encoding;
         private bool _disposed = false;
+        
+        public Encoding Encoding { get; }
+
+        /// <summary>
+        /// Флаг окончания файла.
+        /// </summary>
+        // TODO : Заполнять данный флаг при достижении конца файла/стрима при чтении (+)
+        public bool IsEof => _localStream.Position >= _localStream.Length;
 
         /// <summary>
         /// Конструктор класса. 
@@ -20,17 +28,17 @@ namespace TestTask
         /// <param name="fileFullPath">Полный путь до файла для чтения</param>
         public ReadOnlyStream(string fileFullPath, Encoding encoding = default)
         {
-            CheckPath(fileFullPath);
-            _encoding = DefineEncoding(encoding);
+            Encoding = DefineEncoding(encoding);
             // TODO : Заменить на создание реального стрима для чтения файла! (+)
-            _localStream = TryOpenStream(fileFullPath);
+            _localStream = CreateStream(fileFullPath);
+            CheckStream();
         }
 
-        /// <summary>
-        /// Флаг окончания файла.
-        /// </summary>
-        // TODO : Заполнять данный флаг при достижении конца файла/стрима при чтении (+)
-        public bool IsEof => _localStream.Position >= _localStream.Length;
+        public virtual Stream CreateStream(string param)
+        {
+            CheckPath(param);
+            return TryOpenStream(param);
+        }
 
         /// <summary>
         /// Ф-ция чтения следующего символа из потока.
@@ -44,11 +52,9 @@ namespace TestTask
             // TODO : Необходимо считать очередной символ из _localStream (+)
             byte[] buffer = new byte[sizeof(char)];
             int bytesRead = _localStream.Read(buffer, 0, sizeof(char));
-
             if (bytesRead != sizeof(char))
                 throw new EndOfStreamException(__errorNoMoreSymbols);
-
-            return _encoding.GetChars(buffer)[0];
+            return Encoding.GetChars(buffer)[0];
         }
 
         /// <summary>
@@ -77,7 +83,13 @@ namespace TestTask
                 throw new ObjectDisposedException(GetType().Name);
         }
 
-        private Stream TryOpenStream(string fileFullPath)
+        private void CheckStream()
+        {
+            if (_localStream == null || _localStream == Stream.Null)
+                throw new ArgumentNullException(nameof(Stream), __errorNullStream);
+        }
+
+        private static Stream TryOpenStream(string fileFullPath)
         {
             try
             {
