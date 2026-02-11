@@ -44,13 +44,16 @@ namespace TestTask.Helpers
             }
             else
             {
-                map[key] = new LetterStats
-                {
-                    Letter = key,
-                    Count = 1
-                };
+                map[key] = CreateLetterStats(key);
             }
         }
+
+        private static LetterStats CreateLetterStats(string key) =>
+            new LetterStats
+            {
+                Letter = key,
+                Count = 1
+            };
 
         /// <summary>
         /// Метод увеличивает счётчик вхождений по переданной структуре.
