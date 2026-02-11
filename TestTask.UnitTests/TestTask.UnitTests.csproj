@@ -135,8 +135,9 @@
   <ItemGroup>
     <Compile Include="FillStatsTests.cs" />
     <Compile Include="Fakes\FakeReadOnlyStream.cs" />
-    <Compile Include="InputData\DataFillStat.cs" />
+    <Compile Include="InputData\InputObjectData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemoveStatsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using TestTask.Helpers;
 using TestTask.UnitTests.Fakes;
+using TestTask.UnitTests.InputData;
 using Xunit;
 
 namespace TestTask.UnitTests
@@ -11,24 +12,10 @@ namespace TestTask.UnitTests
     public class FillStatsTests
     {
         // format: inputData
-        public static List<object[]> DataWithNoLetters = new List<object[]>()
-        { 
-            new object[] { "" },
-            new object[] { "123454321708090706,-./" },
-            new object[] { "12345\0\0\0\0\0\0\0\0\0\0\t\t\t\r\n\r\n"},
-        };
+        public static List<object[]> DataWithNoLetters = InputObjectData.DataWithNoLetters;
 
         // format: inputData, singleStatCount, doubleStatCount
-        public static List<object[]> DataWithLettersOnly = new List<object[]>()
-        { 
-            new object[] { "ААБББВВВВГДЕЖЗЯЯЯ", 9, 4 },
-            new object[] { "аабббввввгдежзяяя", 9, 4 },
-            new object[] { "аАБбБвВВвГдЕЖзяЯЯ", 13, 4},
-        };
-
-        public FillStatsTests()
-        {
-        }
+        public static List<object[]> DataWithLettersOnly = InputObjectData.DataWithLettersOnlyFillStat;
 
         [Fact]
         public void create_reader_with_null_param_will_be_exception()

@@ -30,14 +30,16 @@ namespace TestTask.Helpers
 
         private static void RemoveVowels(IList<LetterStats> letters)
         {
-            letters = GetConsonantsOnly(letters)
-                .ToList();
+            for (int i = letters.Count - 1; i >= 0; i--)
+                if (__vowelsEnRu.Contains(letters[i].Letter.First()))
+                    letters.RemoveAt(i);
         }
 
         private static void RemoveConsonants(IList<LetterStats> letters)
         {
-            letters = GetVowelsOnly(letters)
-                .ToList();
+            for (int i = letters.Count - 1; i >= 0; i--)
+                if (!__vowelsEnRu.Contains(letters[i].Letter.First()))
+                    letters.RemoveAt(i);
         }
 
         private static IEnumerable<LetterStats> GetVowelsOnly(IList<LetterStats> letters) =>
