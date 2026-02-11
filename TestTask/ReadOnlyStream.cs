@@ -13,7 +13,10 @@ namespace TestTask
 
         private readonly Stream _localStream;
         private bool _disposed = false;
-        
+
+        /// <summary>
+        /// Кодировка для чтения символа из файла.
+        /// </summary>
         public Encoding Encoding { get; }
 
         /// <summary>
@@ -34,6 +37,11 @@ namespace TestTask
             CheckStream();
         }
 
+        /// <summary>
+        /// Метод открывает Stream по имени файла (можно переопределять).
+        /// </summary>
+        /// <param name="param">Полный путь до файла для чтения</param>
+        /// <returns>Открытый поток.</returns>
         public virtual Stream CreateStream(string param)
         {
             CheckPath(param);
@@ -68,6 +76,9 @@ namespace TestTask
             _localStream.Position = 0;
         }
 
+        /// <summary>
+        /// Метод для очистки неуправляемых ресурсов.
+        /// </summary>
         public void Dispose()
         {
             if (!_disposed)
@@ -77,18 +88,29 @@ namespace TestTask
             }
         }
 
+        /// <summary>
+        /// Метод выбрасывает исключение, если ресурс уже освобожден.
+        /// </summary>
         private void CheckDisposed()
         {
             if (_disposed)
                 throw new ObjectDisposedException(GetType().Name);
         }
 
+        /// <summary>
+        /// Метод проверяет внутренний стрим на null, выбрасывает исключение.
+        /// </summary>
         private void CheckStream()
         {
             if (_localStream == null || _localStream == Stream.Null)
                 throw new ArgumentNullException(nameof(Stream), __errorNullStream);
         }
 
+        /// <summary>
+        /// Метод пытается открыть файловый поток, выбрасывает исключение при невозможности.
+        /// </summary>
+        /// <param name="fileFullPath">Полный путь до файла для чтения.</param>
+        /// <returns>Открытый файловый поток.</returns>
         private static Stream TryOpenStream(string fileFullPath)
         {
             try
@@ -101,12 +123,21 @@ namespace TestTask
             }
         }
 
+        /// <summary>
+        /// Метод проверяет путь к файлу на null и пустоту.
+        /// </summary>
+        /// <param name="fileFullPath">Полный путь до файла</param>
         private static void CheckPath(string fileFullPath)
         {
             if (string.IsNullOrWhiteSpace(fileFullPath))
                 throw new ArgumentNullException(nameof(fileFullPath));
         }
 
+        /// <summary>
+        /// Метод проверяет Encoding на null, возвращает UTF8 при положительной проверке.
+        /// </summary>
+        /// <param name="encoding">Задаваемая кодировка</param>
+        /// <returns>Кодировка Encoding.</returns>
         private static Encoding DefineEncoding(Encoding encoding) =>
             encoding == default
                 ? Encoding.UTF8

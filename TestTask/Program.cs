@@ -5,7 +5,6 @@ namespace TestTask
 {
     public class Program
     {
-
         /// <summary>
         /// Программа принимает на входе 2 пути до файлов.
         /// Анализирует в первом файле кол-во вхождений каждой буквы (регистрозависимо). Например А, б, Б, Г и т.д.
@@ -29,6 +28,10 @@ namespace TestTask
             HelperMain.WaitPressKey();
         }
 
+        /// <summary>
+        /// Метод запускает обработку файла для одиночных букв.
+        /// </summary>
+        /// <param name="fileFullPath">Полный путь до файла для чтения</param>
         private static void ProcessingSingleStats(string fileFullPath)
         {
             var singleStats = GetSingleLetterStats(fileFullPath);
@@ -36,6 +39,10 @@ namespace TestTask
             PrintStatistic(singleStats);
         }
 
+        /// <summary>
+        /// Метод запускает обработку файла для парных букв.
+        /// </summary>
+        /// <param name="fileFullPath">Полный путь до файла для чтения</param>
         private static void ProcessingDoubleStats(string fileFullPath)
         {
             var doubleStats = GetDoubleLetterStats(fileFullPath);
@@ -43,6 +50,11 @@ namespace TestTask
             PrintStatistic(doubleStats);
         }
 
+        /// <summary>
+        /// Метод получает статистику по одиночным буквам.
+        /// </summary>
+        /// <param name="fileFullPath">Полный путь до файла для чтения</param>
+        /// <returns>Коллекция статистик.</returns>
         private static IList<LetterStats> GetSingleLetterStats(string fileFullPath)
         {
             IList<LetterStats> singleLetterStats = new List<LetterStats>();
@@ -53,6 +65,11 @@ namespace TestTask
             return singleLetterStats;
         }
 
+        /// <summary>
+        /// Метод получает статистику по парным буквам.
+        /// </summary>
+        /// <param name="fileFullPath">Полный путь до файла для чтения</param>
+        /// <returns>Коллекция статистик.</returns>
         private static IList<LetterStats> GetDoubleLetterStats(string fileFullPath)
         {
             IList<LetterStats> doubleLetterStats = new List<LetterStats>();

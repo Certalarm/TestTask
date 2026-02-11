@@ -1,4 +1,4 @@
-# Тестовое задание.
+# ТЗ.
 Доброго дня.  
 Данный репозиторий представляет из себя тестовое задание для выполнения перед собеседованием на вакансию разработчика C# в компанию Катрен.
 
@@ -20,3 +20,43 @@ __Для разработки настоятельно рекомендуетс�
 И по готовности результат отдать на ревью методом Pull Request'a.__  
 
 Если данный способ по каким-то причинам Вам не представляется реализуемым, можете выслать результат в виде архива на почту кадровому агенту.  
+
+# РЕШЕНИЕ
+## Что сделано?
+Всё, согласно ТЗ, все `TODO` (9 шт). Код исправлен и доработан.
+
+### Дополнительно
+- Написаны юнит-тесты,
+- Настроен автозапуск тестов на `GitHub Actions` при каждом коммите в удаленный репозиторий.
+
+### Структура Решения
+Решение состоит из 2-х проектов
+- TestTask (исходный проект),
+- TestTask.UnitTests (юнит-тесты).
+
+```
+.
+├──📂TestTask
+│   ├──📂Helpers
+│   │   ├──📄HelperFillStat.cs
+│   │   ├──📄HelperMain.cs
+│   │   ├──📄HelperPrintStat.cs
+│   │   └──📄HelperRemoveStat.cs
+│   ├──📄CharType.cs
+│   ├──📄IReadOnlyStream.cs
+│   ├──📄LetterStats.cs
+│   ├──📄Program.cs
+│   └──📄ReadOnlyStream.cs
+│
+└──📂TestTask.UnitTests
+    ├──📂Fakes
+    │   └──📄FakeReadOnlyStream.cs
+    ├──📂InputData
+    │   └──📄InputObjectData.cs
+    ├──📄FillStatsTests.cs
+    ├──📄HelperMainTests.cs
+    ├──📄PrintStatsTests.cs
+    └──📄RemoveStatsTests.cs
+```
+
+Исполняемые файлы с программой [здесь](https://github.com/Certalarm/Reformer/blob/dev/_assets/Reformer.zip). Не требует установки. 

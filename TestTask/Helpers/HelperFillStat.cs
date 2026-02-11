@@ -39,12 +39,17 @@ namespace TestTask.Helpers
             {
                 char c = stream.ReadNextChar();
                 // TODO : заполнять статистику с использованием метода IncStatistic. Учёт букв - НЕ регистрозависимый. (+)
-                HelperFillStat.FillDoubleStatMap(prevC, c, pairCountsMap);
+                FillDoubleStatMap(prevC, c, pairCountsMap);
                 prevC = c;
             }
             return new List<LetterStats>(pairCountsMap.Values);
         }
 
+        /// <summary>
+        /// Метод добавляет в статистику по одиночным буквам, прочитанный символ.
+        /// </summary>
+        /// <param name="c">Символ для добаления в статистику.</param>
+        /// <param name="map">Словарь статистики.</param>
         private static void FillSingleStatMap(char c, Dictionary<string, LetterStats> map)
         {
             if (IsGoodSingleChar(c))
@@ -52,6 +57,13 @@ namespace TestTask.Helpers
                 FillStatMap(BuildSingleKey(c), map);
             }
         }
+
+        /// <summary>
+        /// Метод добавляет в статистику по парным буквам, прочитанную пару символов.
+        /// </summary>
+        /// <param name="c">Первый символ для добаления в статистику.</param>
+        /// <param name="c">Второй символ для добаления в статистику.</param>
+        /// <param name="map">Словарь статистики.</param>
         private static void FillDoubleStatMap(char c1, char c2, Dictionary<string, LetterStats> map)
         {
             if (IsGoodDoubleChar(c1, c2))
@@ -60,22 +72,61 @@ namespace TestTask.Helpers
             }
         }
 
+        /// <summary>
+        /// Метод строит ключ для одиночной статистики.
+        /// </summary>
+        /// <param name="c">Символ для построения ключа.</param>
+        /// <returns>Ключ для одиночной статистики.</returns>
         private static string BuildSingleKey(char c) => c.ToString();
 
+        /// <summary>
+        /// Метод строит ключ для парной статистики.
+        /// </summary>
+        /// <param name="c1">Первый символ для построения ключа.</param>
+        /// <param name="c2">Второй символ для построения ключа.</param>
+        /// <returns>Ключ для парной статистики.</returns>
         private static string BuildDoubleKey(char c1, char c2) => $"{c1}{c2}".ToUpper();
 
+        /// <summary>
+        /// Метод проверяет символ на принадлежность к букве.
+        /// </summary>
+        /// <param name="c">Символ для проверки.</param>
+        /// <returns>Был ли символ буквой.</returns>
         private static bool IsGoodSingleChar(char c) =>
             char.IsLetter(c);
 
+        /// <summary>
+        /// Метод проверяет пару символов на принадлежность к буквам и на равенство букв.
+        /// </summary>
+        /// <param name="c1">Первый символ для проверки.</param>
+        /// <param name="c2">Второй символ для проверки.</param>
+        /// <returns>Является ли пара символов парой букв и одинаковы ли они.</returns>
         private static bool IsGoodDoubleChar(char c1, char c2) =>
             IsLetterBoth(c1, c2) && IsEquallyBoth(c1, c2);
 
+        /// <summary>
+        /// Метод проверяет пару символов на принадлежность к буквам.
+        /// </summary>
+        /// <param name="c1">Первый символ для проверки.</param>
+        /// <param name="c2">Второй символ для проверки.</param>
+        /// <returns>Является ли пара символов парой букв.</returns>
         private static bool IsLetterBoth(char c1, char c2) =>
             char.IsLetter(c1) && char.IsLetter(c2);
 
+        /// <summary>
+        /// Метод проверяет пару символов на равенство без учета регистра.
+        /// </summary>
+        /// <param name="c1">Первый символ для проверки.</param>
+        /// <param name="c2">Второй символ для проверки.</param>
+        /// <returns>Одинаковы ли символы.</returns>
         private static bool IsEquallyBoth(char c1, char c2) =>
             char.ToUpperInvariant(c1) == char.ToUpperInvariant(c2);
 
+        /// <summary>
+        /// Метод увеличивает статистику по существующему ключу или созает новую запись.
+        /// </summary>
+        /// <param name="key">Ключ для проверки.</param>
+        /// <param name="map">Словарь со статистикой.</param>
         private static void FillStatMap(string key, Dictionary<string, LetterStats> map)
         {
             if (map.TryGetValue(key, out LetterStats existingStat))
@@ -89,6 +140,11 @@ namespace TestTask.Helpers
             }
         }
 
+        /// <summary>
+        /// Метод создает статистику для впервые встретившегося ключа.
+        /// </summary>
+        /// <param name="key">Ключ статистики.</param>
+        /// <returns>Статистика.</returns>
         private static LetterStats CreateLetterStats(string key) =>
             new LetterStats
             {
