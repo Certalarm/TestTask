@@ -41,13 +41,5 @@ namespace TestTask.Helpers
                 if (!__vowelsEnRu.Contains(letters[i].Letter.First()))
                     letters.RemoveAt(i);
         }
-
-        private static IEnumerable<LetterStats> GetVowelsOnly(IList<LetterStats> letters) =>
-            letters
-                .Where(x => __vowelsEnRu.Contains(x.Letter.First()));
-
-        private static IEnumerable<LetterStats> GetConsonantsOnly(IList<LetterStats> letters) =>
-            letters
-                .Where(x => !__vowelsEnRu.Contains(x.Letter.First()));
     }
 }

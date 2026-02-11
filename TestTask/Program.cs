@@ -17,25 +17,36 @@ namespace TestTask
         /// Второй параметр - путь до второго файла.</param>
         static void Main(string[] args)
         {
-            IList<LetterStats> singleLetterStats = new List<LetterStats>();
-            using (IReadOnlyStream inputStream1 = GetInputStream(args[0]))
-            {
-                singleLetterStats = HelperFillStat.FillSingleLetterStats(inputStream1);
-            }
-            HelperRemoveStat.RemoveCharStatsByType(singleLetterStats, CharType.Vowel);
-            PrintStatistic(singleLetterStats);
-
-            IList<LetterStats> doubleLetterStats = new List<LetterStats>();
-            using (IReadOnlyStream inputStream2 = GetInputStream(args[1]))
-            {
-                doubleLetterStats = HelperFillStat.FillDoubleLetterStats(inputStream2);
-            }
-            HelperRemoveStat.RemoveCharStatsByType(doubleLetterStats, CharType.Consonants);
-            PrintStatistic(doubleLetterStats);
-
-
+            Processing(GetSingleLetterStats(args[0]));
+            Processing(GetDoubleLetterStats(args[1]));
             // TODO : Необжодимо дождаться нажатия клавиши, прежде чем завершать выполнение программы. (+)
             Console.ReadKey();
+        }
+
+        private static void Processing(IList<LetterStats> letterStats)
+        {
+            HelperRemoveStat.RemoveCharStatsByType(letterStats, CharType.Consonants);
+            PrintStatistic(letterStats);
+        }
+
+        private static IList<LetterStats> GetSingleLetterStats(string fileFullPath)
+        {
+            IList<LetterStats> singleLetterStats = new List<LetterStats>();
+            using (IReadOnlyStream inputStream = GetInputStream(fileFullPath))
+            {
+                singleLetterStats = HelperFillStat.FillSingleLetterStats(inputStream);
+            }
+            return singleLetterStats;
+        }
+
+        private static IList<LetterStats> GetDoubleLetterStats(string fileFullPath)
+        {
+            IList<LetterStats> doubleLetterStats = new List<LetterStats>();
+            using (IReadOnlyStream inputStream = GetInputStream(fileFullPath))
+            {
+                doubleLetterStats = HelperFillStat.FillDoubleLetterStats(inputStream);
+            }
+            return doubleLetterStats;
         }
 
         /// <summary>
@@ -48,7 +59,6 @@ namespace TestTask
             return new ReadOnlyStream(fileFullPath);
         }
 
-
         /// <summary>
         /// Ф-ция выводит на экран полученную статистику в формате "{Буква} : {Кол-во}"
         /// Каждая буква - с новой строки.
@@ -56,10 +66,11 @@ namespace TestTask
         /// В конце отдельная строчка с ИТОГО, содержащая в себе общее кол-во найденных букв/пар
         /// </summary>
         /// <param name="letters">Коллекция со статистикой</param>
-        private static void PrintStatistic(IEnumerable<LetterStats> letters)
+        public static void PrintStatistic(IEnumerable<LetterStats> letters)
         {
-            // TODO : Выводить на экран статистику. Выводить предварительно отсортировав по алфавиту!
-            throw new NotImplementedException();
+            // TODO : Выводить на экран статистику. Выводить предварительно отсортировав по алфавиту! (+)
+            var report = HelperPrintStat.BuildReport(letters);
+            Console.WriteLine(report);
         }
     }
 }

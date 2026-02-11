@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="CharType.cs" />
     <Compile Include="Helpers\HelperFillStat.cs" />
+    <Compile Include="Helpers\HelperPrintStat.cs" />
     <Compile Include="Helpers\HelperRemoveStat.cs" />
     <Compile Include="IReadOnlyStream.cs" />
     <Compile Include="LetterStats.cs" />
