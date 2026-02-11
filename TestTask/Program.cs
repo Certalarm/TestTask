@@ -22,7 +22,7 @@ namespace TestTask
             {
                 singleLetterStats = HelperFillStat.FillSingleLetterStats(inputStream1);
             }
-            RemoveCharStatsByType(singleLetterStats, CharType.Vowel);
+            HelperRemoveStat.RemoveCharStatsByType(singleLetterStats, CharType.Vowel);
             PrintStatistic(singleLetterStats);
 
             IList<LetterStats> doubleLetterStats = new List<LetterStats>();
@@ -30,7 +30,7 @@ namespace TestTask
             {
                 doubleLetterStats = HelperFillStat.FillDoubleLetterStats(inputStream2);
             }
-            RemoveCharStatsByType(doubleLetterStats, CharType.Consonants);
+            HelperRemoveStat.RemoveCharStatsByType(doubleLetterStats, CharType.Consonants);
             PrintStatistic(doubleLetterStats);
 
 
@@ -48,26 +48,6 @@ namespace TestTask
             return new ReadOnlyStream(fileFullPath);
         }
 
-
-        /// <summary>
-        /// Ф-ция перебирает все найденные буквы/парные буквы, содержащие в себе только гласные или согласные буквы.
-        /// (Тип букв для перебора определяется параметром charType)
-        /// Все найденные буквы/пары соответствующие параметру поиска - удаляются из переданной коллекции статистик.
-        /// </summary>
-        /// <param name="letters">Коллекция со статистиками вхождения букв/пар</param>
-        /// <param name="charType">Тип букв для анализа</param>
-        private static void RemoveCharStatsByType(IList<LetterStats> letters, CharType charType)
-        {
-            // TODO : Удалить статистику по запрошенному типу букв.
-            switch (charType)
-            {
-                case CharType.Consonants:
-                    break;
-                case CharType.Vowel:
-                    break;
-            }
-            
-        }
 
         /// <summary>
         /// Ф-ция выводит на экран полученную статистику в формате "{Буква} : {Кол-во}"
