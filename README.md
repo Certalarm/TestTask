@@ -36,27 +36,27 @@ __Для разработки настоятельно рекомендуетс�
 
 ```
 .
-├──📂TestTask
-│   ├──📂Helpers
-│   │   ├──📄HelperFillStat.cs
-│   │   ├──📄HelperMain.cs
-│   │   ├──📄HelperPrintStat.cs
-│   │   └──📄HelperRemoveStat.cs
+├──📂TestTask                           Исходный проект
+│   ├──📂Helpers                    
+│   │   ├──📄HelperFillStat.cs          Логика для заполнения статистики
+│   │   ├──📄HelperMain.cs              Логика для основного метода Main
+│   │   ├──📄HelperPrintStat.cs         Логика для печати статистики
+│   │   └──📄HelperRemoveStat.cs        Логика для удаления статистики
 │   ├──📄CharType.cs
 │   ├──📄IReadOnlyStream.cs
 │   ├──📄LetterStats.cs
-│   ├──📄Program.cs
+│   ├──📄Program.cs                     Точка входа в программу
 │   └──📄ReadOnlyStream.cs
 │
-└──📂TestTask.UnitTests
-    ├──📂Fakes
-    │   └──📄FakeReadOnlyStream.cs
-    ├──📂InputData
-    │   └──📄InputObjectData.cs
-    ├──📄FillStatsTests.cs
-    ├──📄HelperMainTests.cs
-    ├──📄PrintStatsTests.cs
-    └──📄RemoveStatsTests.cs
+└──📂TestTask.UnitTests                 Проект с юнит-тестами
+    ├──📂Fakes                     
+    │   └──📄FakeReadOnlyStream.cs      Фейковая реализация ReadOnlyStream
+    ├──📂InputData                    
+    │   └──📄InputObjectData.cs         Входные данные для тестов
+    ├──📄FillStatsTests.cs              Юнит-тесты для HelperFillStat
+    ├──📄HelperMainTests.cs             Юнит-тесты для HelperMain
+    ├──📄PrintStatsTests.cs             Юнит-тесты для HelperPrintStat
+    └──📄RemoveStatsTests.cs            Юнит-тесты для HelperRemoveStat
 ```
 
-Исполняемые файлы с программой [здесь](https://github.com/Certalarm/Reformer/blob/dev/_assets/Reformer.zip). Не требует установки. 
+Исполняемые файлы с программой [здесь](https://github.com/Certalarm/TestTask/tree/master/_assets/TestTask.zip). Не требует установки. 
